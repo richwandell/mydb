@@ -13,7 +13,10 @@ class TableDefinition:
         self.name = name
         self.columns = columns
         self.indexes = indexes
-        self.row_size = sum(column.max_length for column in self.columns)
+        """
+        Row size is the max length of the row plus the column actual size bytes prefix
+        """
+        self.row_size = sum(column.max_length for column in self.columns) + (len(self.columns) * 4)
 
     def to_dict(self):
         return {

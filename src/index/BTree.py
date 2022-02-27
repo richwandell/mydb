@@ -95,6 +95,7 @@ class BTree:
 
 
 if __name__ == "__main__":
+    import binascii
     b = BTree(node_size=50)
 
     # for i in range(1, 15):
@@ -108,9 +109,10 @@ if __name__ == "__main__":
     with open("../../junk/nestest_log_comma.csv", newline='\n') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in spamreader:
-            key = int("0x" + row[0], 16)
+            key = int(binascii.hexlify(row[0].encode("utf8")), 16)
             b.insert(key, row)
 
-    row = b.find_insertion(b.root, int("0xFAEF", 16))
+    key = int(binascii.hexlify("FAEF".encode("utf8")), 16)
+    row = b.find_insertion(b.root, key)
 
     print(b)

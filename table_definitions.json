@@ -32,7 +32,7 @@
     "columns": [
       {
         "column_name": "instruction",
-        "column_type": 1,
+        "column_type": 0,
         "max_length": 4
       },
       {
@@ -52,6 +52,13 @@
       }
     ],
     "indexes": [
+      {
+        "name": "bytecode_instruction_index",
+        "columns": [
+          "bytecode",
+          "instruction"
+        ]
+      },
       {
         "name": "instruction_index",
         "columns": [

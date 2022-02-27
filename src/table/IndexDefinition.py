@@ -13,7 +13,9 @@ class IndexDefinition:
 
     @staticmethod
     def from_dict(index, columns):
-        ic = list(filter(lambda x: x.column_name in index["columns"], columns))
+        ic = []
+        for col_name in index["columns"]:
+            ic.append(next(x for x in columns if x.column_name == col_name))
         return IndexDefinition(index["name"], ic)
 
     @staticmethod
