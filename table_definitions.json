@@ -1,0 +1,63 @@
+[
+  {
+    "table_name": "users",
+    "columns": [
+      {
+        "column_name": "id",
+        "column_type": 1,
+        "max_length": 200
+      },
+      {
+        "column_name": "first_name",
+        "column_type": 0,
+        "max_length": 200
+      },
+      {
+        "column_name": "last_name",
+        "column_type": 0,
+        "max_length": 200
+      }
+    ],
+    "indexes": [
+      {
+        "name": "first_name_index",
+        "columns": [
+          "first_name"
+        ]
+      }
+    ]
+  },
+  {
+    "table_name": "nestest_log",
+    "columns": [
+      {
+        "column_name": "instruction",
+        "column_type": 1,
+        "max_length": 4
+      },
+      {
+        "column_name": "bytecode",
+        "column_type": 0,
+        "max_length": 10
+      },
+      {
+        "column_name": "visual_instruction",
+        "column_type": 0,
+        "max_length": 35
+      },
+      {
+        "column_name": "state",
+        "column_type": 0,
+        "max_length": 100
+      }
+    ],
+    "indexes": [
+      {
+        "name": "instruction_index",
+        "columns": [
+          "instruction"
+        ]
+      }
+    ]
+  }
+]
