@@ -7,10 +7,10 @@ class Node:
     children: List[Node]
     value: int
     parent: Node | None
-    data: Any | None
+    data: List[Any]
     keys: List[int]
 
-    def __init__(self, value=None, data=None):
+    def __init__(self, value=None, data=[]):
         self.value = value
         self.children = []
         self.parent = None
@@ -31,8 +31,8 @@ class Node:
     def is_leaf(self):
         return len(self.keys) == 0
 
-    def __str__(self):
-        return "Node: " + str(self.value) + " " + str(list(str(c) for c in self.children))
+    # def __str__(self):
+    #     return "Node: " + str(self.value) + " " + str(list(str(c) for c in self.children))
 
 
 class BTree:
@@ -55,6 +55,7 @@ class BTree:
         left_node.update_parent()
 
         mid_node = Node(mid_val.value)
+        mid_node.data = mid_val.data
         mid_node.parent = node.parent
         mid_node.update_parent()
 
@@ -77,6 +78,7 @@ class BTree:
             node.parent.children.append(right_node)
             node.parent.children.sort(key=lambda x: x.value)
             node.parent.update_keys()
+            node.parent.data = []
             return node.parent
         else:
             root_node = Node()
@@ -89,26 +91,26 @@ class BTree:
             return root_node
 
     def add_to_node(self, node, key, data):
-        new_node = Node(key, data)
+        new_node = Node(key, [data])
         new_node.parent = node
         node.children.append(new_node)
         node.children.sort(key=lambda x: x.value)
         node.update_keys()
 
-    def find_insertion(self, node: Node, data):
+    def find_insertion(self, node: Node, key):
         if len(node.keys) == 0:
             return node
         if len(node.keys) == 1:
             val = node.children[node.keys[0]].value
-            if data < val and len(node.children) > 1:
-                return self.find_insertion(node.children[node.keys[0] - 1], data)
-            elif data > val and len(node.children)-1 > node.keys[0]:
-                return self.find_insertion(node.children[node.keys[0] + 1], data)
+            if key < val and len(node.children) > 1:
+                return self.find_insertion(node.children[node.keys[0] - 1], key)
+            elif key > val and len(node.children)-1 > node.keys[0]:
+                return self.find_insertion(node.children[node.keys[0] + 1], key)
         for k in node.keys:
             val = node.children[k].value
-            if data < val and len(node.children) > 1:
-                return self.find_insertion(node.children[k - 1], data)
-            elif data == val:
+            if key < val and len(node.children) > 1:
+                return self.find_insertion(node.children[k - 1], key)
+            elif key == val:
                 return node.children[k]
         if len(node.children) > 0:
             if not node.children[-1].is_leaf:
@@ -121,13 +123,20 @@ class BTree:
         if node.value != key:
             self.add_to_node(node, key, data)
         else:
-            node.data = data
+            node.data.append(data)
         while len(node.keys) >= self.node_size:
             node = self.split_children(node)
 
 
 if __name__ == "__main__":
-    b = BTree(node_size=5)
+    b = BTree(node_size=50)
+
+    # for i in range(1, 15):
+    #     b.insert(i, i)
+    #
+    # b.insert(3, "its 3")
+    # b.insert(3, "its 3")
+    # b.insert(3, "its 3")
 
     import csv
     with open("../../junk/nestest_log_comma.csv", newline='\n') as csvfile:
@@ -136,6 +145,6 @@ if __name__ == "__main__":
             key = int("0x" + row[0], 16)
             b.insert(key, row)
 
-    row = b.find_insertion(b.root, int("0xC774", 16))
+    row = b.find_insertion(b.root, int("0xFAEF", 16))
 
     print(b)

@@ -6,6 +6,7 @@ from src import Config, Db
 def main(args: argparse.Namespace):
     config = Config(args.config)
     db = Db(config)
+
     db.save_table_definitions()
     print(config)
 
