@@ -9,6 +9,7 @@ from src.table import TableDefinition, ColumnType
 from .DbIndex import DbIndex
 from .TableMeta import TableMeta
 from .functions import load_table_definitions, str_to_int, convert_row, convert_column, table_exists
+from ..language.functions import create_statements, SelectStatement
 
 
 class Db:
@@ -163,3 +164,10 @@ class Db:
 
     def create_table(self, table_definition: TableDefinition):
         pass
+
+    def query(self, sql: str):
+        statements = create_statements(sql)
+        for statement in statements:
+            if type(statement) == SelectStatement:
+                pass
+        print(statements)

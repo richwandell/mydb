@@ -3,6 +3,7 @@ from threading import Thread
 
 from src import Config, Db
 from src.db.DbIndex import convert_key
+from src.language.functions import create_statements
 
 
 def main(args: argparse.Namespace):
@@ -23,6 +24,9 @@ def main(args: argparse.Namespace):
     #         row = list(column.strip() for column in row)
     #         # row[0] = convert_key(row[0])
     #         db.insert("nestest_log", row)
+
+
+    results = db.query("select instruction from nestest_log")
 
     row = db.get_row("nestest_log", 1)
     rows = db.get_rows("nestest_log", [0, 2, 3])
